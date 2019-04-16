@@ -38,11 +38,28 @@
 
         
     <div class="l-separator"></div>
-    <!-- /.l-separator -->
-
-    
-
+    <!-- /.l-separator --> 
     <div class="l-center units animated fadeIn">
+        <div class="l-unit table-header">
+      
+            <div class="l-unit__col l-unit__col--right">
+                  <div class="clearfix l-unit__stat-col--left super-compact">
+                      <input id="toggle-all" type="checkbox" name="toggle-all" value="toggle-all" onChange="checkedAll('objects');">
+                      <label for="toggle-all" class="check-label toggle-all"></label>
+                    </div>
+                  
+                  <div class="clearfix l-unit__stat-col--left compact-3"><b><?php print __('Name');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left"><b>&nbsp;</b></div>
+                  <div class="clearfix l-unit__stat-col--left border"><b><?php print __('Username');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Disk');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center"><b><?php print __('Package');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact-1"><b><?php print __('Web Domains');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact-1"><b><?php print __('Mail Domains');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact-1"><b><?php print __('DNS Zones');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact-1"><b><?php print __('Backups');?></b></div>
+             </div>
+          </div>
+
       <?php
         foreach ($data as $key => $value) {
           ++$i;
