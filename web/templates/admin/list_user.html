@@ -1,70 +1,46 @@
-    <div class="l-center">
-      <div class="l-sort clearfix noselect">
-        <?php
-          if ($user == 'admin') {
-            echo '<a class="l-sort__create-btn" href="/add/user/" title="'.__('Add User').'"></a>';
-          } else {
-            echo '<a class="l-sort__create-btn" href="/add/web/" title="'.__('Add Web Domain').'"></a>';
-          }
-        ?>
-        <ul class="context-menu sort-order" style="display:none;">
-          <li entity="sort-date" sort_as_int="1"><span class="name active"><?=__('Date')?></span><span class="up">&nbsp;</span></li>
-          <li entity="sort-name"><span class="name"><?=__('Username')?></span><span class="up">&nbsp;</span></li>
-          <li entity="sort-disk" sort_as_int="1"><span class="name"><?=__('Disk')?></span><span class="up">&nbsp;</span></li>
-          <li entity="sort-bandwidth" sort_as_int="1"><span class="name"><?=__('Bandwidth')?></span><span class="up">&nbsp;</span></li>
-          <li entity="sort-star" sort_as_int="1"><span class="name"><?=__('Starred')?></span><span class="up">&nbsp;</span></li>
-        </ul>
-
-
-        <div class="l-sort-toolbar clearfix page-toolbar">
-          <div class="l-center">
-          <table>
-            <tr>
-              <td class="l-sort-toolbar__search-box">
-                <form action="/search/" method="get">
-                  <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
-                  <input type="text" name="q" class="search-input" value="<? echo isset($_POST['q']) ? htmlspecialchars($_POST['q']) : '' ?>" />
-                  <input type="submit" value="" class="l-sort-toolbar__search" onClick="return doSearch('/search/')" />
-                </form>
-              </td>
-              <td class="toggle-all">
-                <input id="toggle-all" type="checkbox" name="toggle-all" value="toggle-all" onChange="checkedAll('objects');">
-                <label for="toggle-all" class="check-label toggle-all"><?=__('toggle all')?></label>
-              </td>
-              <td>
+   <div class="l-center">
+          <div class="l-sort clearfix noselect">
+            <ul class="context-menu sort-order" style="display:none;">
+              <li entity="sort-date" sort_as_int="1"><span class="name active"><?=__('Date')?></span><span class="up">&nbsp;</span></li>
+              <li entity="sort-name"><span class="name"><?=__('Domain')?></span><span class="up">&nbsp;</span></li>
+              <li entity="sort-ip" sort_as_int="1"><span class="name"><?=__('IP address')?></span><span class="up">&nbsp;</span></li>
+              <li entity="sort-disk" sort_as_int="1"><span class="name"><?=__('Disk')?></span><span class="up">&nbsp;</span></li>
+              <li entity="sort-bandwidth" sort_as_int="1"><span class="name"><?=__('Bandwidth')?></span><span class="up">&nbsp;</span></li>
+              <li entity="sort-star" sort_as_int="1"><span class="name"><?=__('Starred')?></span><span class="up">&nbsp;</span></li>
+            </ul>
+            <div class="l-sort-toolbar clearfix page-toolbar">
+    
+            <div class="l-center">
+                <?php
+                  if ($user == 'admin') {
+                    echo '<a href="/add/user/" title="'.__('Add User').'"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;'.__('Add User').'</a>';
+                  } else {
+                    echo '<a href="/add/web/" title="'.__('Add Web Domain').'"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;'.__('Add Web Domain').'</a>';
+                  }
+                ?>
+              <div class="clearfix" style="float: right;">
                 <form action="/bulk/user/" method="post" id="objects">
-                  <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
-                  <div class="l-select">
-                    <select class="" name="action">
-                      <option value=""><?=__('apply to selected')?></option>
-                      <option value="rebuild"><?=__('rebuild')?></option>
-                      <option value="rebuild web"><?=__('rebuild web')?></option>
-                      <option value="rebuild dns"><?=__('rebuild dns')?></option>
-                      <option value="rebuild mail"><?=__('rebuild mail')?></option>
-                      <option value="rebuild db"><?=__('rebuild db')?></option>
-                      <option value="rebuild cron"><?=__('rebuild cron')?></option>
-                      <option value="update counters"><?=__('update counters')?></option>
-                      <option value="suspend"><?= __('suspend')?></option>
-                      <option value="unsuspend"><?=__('unsuspend')?></option>
-                      <option value="delete"><?=__('delete')?></option>
-                    </select>
-                  </div>
-                  <button type="submit" class="l-sort-toolbar__filter-apply" value=""><i class="fas fa-arrow-right"></i></button>
-              </td>
-              <td class="sort-by">
-                <?=__('sort by');?>: <span><b><?=__('Date')?></b></span> <i class="l-icon-down-arrow media-top"></i>
-              </td>
-            </tr>
-          </table>
+                <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
+                <div class="l-select">
+                  <select name="action">
+                    <option value=""><?=__('apply to selected')?></option>
+                    <option value="suspend"><?=__('suspend')?></option>
+                    <option value="unsuspend"><?=__('unsuspend')?></option>
+                    <option value="delete"><?=__('delete')?></option>
+                  </select>
+                </div>
+                <button type="submit" class="l-sort-toolbar__filter-apply" value=""><i class="fas fa-arrow-right"></i></button>
+               </div>
+             </div>
+            </div>
+         </div>
         </div>
-        </div>
-      </div>
-      <!-- /.l-sort -->
-    </div>
 
+        
     <div class="l-separator"></div>
     <!-- /.l-separator -->
 
+    
 
     <div class="l-center units animated fadeIn">
       <?php
