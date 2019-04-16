@@ -131,11 +131,11 @@ sort-name="<?=$key?>"  sort-bandwidth="<?=$data[$key]['U_BANDWIDTH']?>" sort-dis
                   <div class="clearfix l-unit__stat-col--left wide-5"><b><a href="/edit/web/?domain=<?=$key?>"><?=$key?></a></b></div>
                   <div class="clearfix l-unit__stat-col--left text-right">
                     <b>
-                        <a href="http://<?=$key?>" target="_blank"><i class="fas fa-external-link-square-alt status-icon-green status-icon-dim icon-large"></i></a>
-                        <a href="/edit/web/?domain=<?=$key?>"><i class="fas fa-pencil-alt status-icon-orange status-icon-dim icon-large"></i></a>
-                         <? if (!empty($data[$key]['STATS'])) { ?>
+                        <? if (!empty($data[$key]['STATS'])) { ?>
                           <a href="http://<?=$key?>/vstats/" target="_blank"><i class="fas fa-list status-icon-green status-icon-dim icon-large"></i>
                          <? } ?>
+                        <a href="http://<?=$key?>" target="_blank"><i class="fas fa-external-link-square-alt status-icon-green status-icon-dim icon-large"></i></a>
+                        <a href="/edit/web/?domain=<?=$key?>"><i class="fas fa-pencil-alt status-icon-orange status-icon-dim icon-large"></i></a>
                         <a href="/list/web-log/?domain=<?php echo $key ?>&type=access#" target="_blank"><i class="fas fa-binoculars status-icon-blue status-icon-dim icon-large"></i></a>
                         <a href="/<?=$spnd_action?>/web/?domain=<?=$key?>&token=<?=$_SESSION['token']?>"><i class="data-controls fas fa-pause-circle status-icon-highlight status-icon-dim icon-large"></i></a>
                         <a href="/delete/web/?domain=<?=$key?>&token=<?=$_SESSION['token']?>"><i class="fas fa-trash status-icon-red status-icon-dim icon-large"></i></a>
