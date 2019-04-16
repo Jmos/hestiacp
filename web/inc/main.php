@@ -58,10 +58,9 @@ if ((!isset($_SESSION['user'])) && (!defined('NO_AUTH_REQUIRED'))) {
     exit;
 }
 
-// Generate CSRF Token
 if (isset($_SESSION['user'])) {
     if(!isset($_SESSION['token'])){
-        $token = bin2hex(file_get_contents('/dev/urandom', false, null, 0, 16));
+        $token = uniqid(mt_rand(), true);
         $_SESSION['token'] = $token;
     }
 }

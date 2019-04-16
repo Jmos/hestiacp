@@ -713,6 +713,7 @@ $LANG['ur'] = array(
     'every two minutes'  => 'ہر دو منٹ',
     'every'  => 'ہر کوئی',
     'Generate'  => 'بنائیں',
+    'webalizer'  => 'webalizer',
     'awstats'  => 'awstats',
     'Hestia SSL'  => 'Hestia کی SSL',
     'SUBJECT'  => 'مضمون',

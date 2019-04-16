@@ -1,7 +1,7 @@
     <div class="l-center">
       <div class="l-sort clearfix noselect">
         <a href="/schedule/restore/?backup=<?=htmlentities($_GET['backup'])?>" class="l-sort__create-btn restore" title="<?=__('Restore All')?>"></a>
-        <div class="l-sort-toolbar clearfix">
+        <div class="l-sort-toolbar clearfix page-toolbar">
           <table>
             <tr>
               <td class="l-sort-toolbar__search-box">
@@ -25,7 +25,7 @@
                     <option value="restore"><?php print __('restore') ?></option>
                   </select>
                 </div>
-                <input type="submit" value="" class="l-sort-toolbar__filter-apply" />
+                <button type="submit" class="l-sort-toolbar__filter-apply" value=""><i class="fas fa-arrow-right"></i></button>
               </td>
             </tr>
           </table>

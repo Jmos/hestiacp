@@ -735,6 +735,7 @@ $LANG['th'] = array(
     'every' => 'ทุก',
     'Generate' => 'สร้าง',
 
+
     'awstats' => 'awstats',
 
     'Hestia SSL' => 'Hestia SSL',

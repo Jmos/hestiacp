@@ -733,6 +733,7 @@ $LANG['ua'] = array(
     'every' => 'кожні',
     'Generate' => 'Генерувати',
 
+
     'awstats' => 'awstats',
 
     'Hestia SSL' => 'Hestia SSL',

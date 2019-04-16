@@ -732,6 +732,7 @@ $LANG['sr'] = array(
     'every' => 'svakih',
     'Generate' => 'Generiši',
 
+
     'awstats' => 'awstats',
 
     'Hestia SSL' => 'Hestia SSL',

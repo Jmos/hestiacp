@@ -1,33 +1,38 @@
-    <div class="l-center">
-      <div class="l-sort clearfix noselect">
-        <div class="l-sort-toolbar clearfix">
+<div class="l-center">
+    <div class="l-sort clearfix noselect">
+      <ul class="context-menu sort-order" style="display:none;">
+        <li entity="sort-date" sort_as_int="1"><span class="name active"><?=__('Date')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-name"><span class="name"><?=__('Domain')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-ip" sort_as_int="1"><span class="name"><?=__('IP address')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-disk" sort_as_int="1"><span class="name"><?=__('Disk')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-bandwidth" sort_as_int="1"><span class="name"><?=__('Bandwidth')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-star" sort_as_int="1"><span class="name"><?=__('Starred')?></span><span class="up">&nbsp;</span></li>
+      </ul>
+      <div class="l-sort-toolbar clearfix page-toolbar">
 
-
-            <div class="l-unit table-header" style="padding-top: 6px;">
-                <div class="l-unit__col l-unit__col--left clearfix">
-                  <div class="text-center jump-small-top"></div>
-                </div>
-          
-                <div class="l-unit__col l-unit__col--right">
-                    <div class="clearfix l-unit__stat-col--left small"><b><?=__('Date')?></b></div>
-                    <div class="clearfix l-unit__stat-col--left compact"><b><?=__('Time')?></b></div>
-                    <div class="clearfix l-unit__stat-col--left wide-4"><b><?=__('Value')?></b></div>
-                </div>
-             </div>
-
-
-
+      <div class="l-center">
+          <a href="javascript:window.history.back()" title="<?=__('Back')?>"><i class="fas fa-arrow-circle-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Back')?></a>&nbsp;&nbsp;
         </div>
-      </div>
-      <!-- /.l-sort -->
-    </div>
-
+     </div>
+   </div>
+  </div>
+        
     <div class="l-separator"></div>
     <!-- /.l-separator -->
 
 
     <div class="l-center units animated fadeIn">
+        <div class="l-unit table-header">
+            <div class="l-unit__col l-unit__col--left clearfix">
+                <div class="text-center jump-small-top"></div>
+              </div>
 
+            <div class="l-unit__col l-unit__col--right">
+                    <div class="clearfix l-unit__stat-col--left small"><b><?=__('Date')?></b></div>
+                    <div class="clearfix l-unit__stat-col--left compact"><b><?=__('Time')?></b></div>
+                    <div class="clearfix l-unit__stat-col--left wide-4"><b><?=__('Value')?></b></div>
+             </div>
+          </div>
       <?php
         foreach ($data as $key => $value) {
            ++$i;
@@ -38,12 +43,10 @@
             <div class="text-center jump-small-top"></div>
           </div>
     
-          <div class="l-unit__col l-unit__col--right step-top">
-            <div style="margin-bottom: 40px;">
+          <div class="l-unit__col l-unit__col--right" style="padding-bottom: 6px; padding-top: 4px;">
               <div class="clearfix l-unit__stat-col--left small"><b><?=translate_date($data[$key]['DATE'])?></b></div>
               <div class="clearfix l-unit__stat-col--left compact"><b><?=$data[$key]['TIME']?></b></div>
               <div class="clearfix l-unit__stat-col--left wide-4"><?=$data[$key]['CMD']?></div>
-            </div>
           </div>
 
         <!-- /.l-unit__col -->

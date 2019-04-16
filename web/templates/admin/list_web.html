@@ -1,6 +1,5 @@
     <div class="l-center">
       <div class="l-sort clearfix noselect">
-        <a href="/add/web/" class="l-sort__create-btn" title="<?=__('Add Web Domain')?>"></a>
         <ul class="context-menu sort-order" style="display:none;">
           <li entity="sort-date" sort_as_int="1"><span class="name active"><?=__('Date')?></span><span class="up">&nbsp;</span></li>
           <li entity="sort-name"><span class="name"><?=__('Domain')?></span><span class="up">&nbsp;</span></li>
@@ -9,61 +8,47 @@
           <li entity="sort-bandwidth" sort_as_int="1"><span class="name"><?=__('Bandwidth')?></span><span class="up">&nbsp;</span></li>
           <li entity="sort-star" sort_as_int="1"><span class="name"><?=__('Starred')?></span><span class="up">&nbsp;</span></li>
         </ul>
-        <div class="l-sort-toolbar clearfix">
-          <table>
-            <tr>
-              <td class="l-sort-toolbar__search-box">
-                <form action="/search/" method="get">
-                  <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
-                  <input type="text" name="q" class="search-input" value="<? echo isset($_POST['q']) ? htmlspecialchars($_POST['q']) : '' ?>" />
-                  <input type="submit" value="" class="l-sort-toolbar__search" onClick="return doSearch('/search/')" />
-                </form>
-              </td>
-              <td class="toggle-all">
-                <input id="toggle-all" type="checkbox" name="toggle-all" value="toggle-all" onChange="checkedAll('objects');">
-                <label for="toggle-all" class="check-label toggle-all"><?=__('toggle all')?></label>
-              </td>
-              <td>
-                <form action="/bulk/web/" method="post" id="objects">
-                <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
-                <div class="l-select">
-                  <select name="action">
-                    <option value=""><?=__('apply to selected')?></option>
-                    <option value="suspend"><?=__('suspend')?></option>
-                    <option value="unsuspend"><?=__('unsuspend')?></option>
-                    <option value="delete"><?=__('delete')?></option>
-                  </select>
-                </div>
-                <input type="submit" class="l-sort-toolbar__filter-apply" value=""/>
-              </td>
-              <td class="sort-by">
-                <?=__('sort by');?>: <span><b><?=__('Date')?></b></span> <i class="l-icon-down-arrow media-top"></i>
-              </td>
-            </tr>
-          </table>
-          <!--  -->
+        <div class="l-sort-toolbar clearfix page-toolbar">
+
+        <div class="l-center">
+          <a href="/add/web/" class="" title="<?=__('Add Web Domain')?>"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Add Web Domain')?></a>
+
+          <div class="clearfix" style="float: right;">
+            <form action="/bulk/web/" method="post" id="objects">
+            <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
+            <div class="l-select">
+              <select name="action">
+                <option value=""><?=__('apply to selected')?></option>
+                <option value="suspend"><?=__('suspend')?></option>
+                <option value="unsuspend"><?=__('unsuspend')?></option>
+                <option value="delete"><?=__('delete')?></option>
+              </select>
+            </div>
+            <button type="submit" class="l-sort-toolbar__filter-apply" value=""><i class="fas fa-arrow-right"></i></button>
+           </div>
+         </div>
         </div>
-        <!-- /.l-sort -->
-      </div>
+     </div>
     </div>
 
     <div class="l-separator"></div>
     <!-- /.l-separator -->
     <div class="l-center units narrow animated fadeIn">
-        <div class="l-unit header">
-            <div class="l-unit__col l-unit__col--left clearfix">
-              <div class="text-center jump-small-top"></div>
-            </div>
+        <div class="l-unit table-header">
       
-            <div class="l-unit__col l-unit__col--right step-top table-header">
-              <div style="margin-bottom: 40px;">
+            <div class="l-unit__col l-unit__col--right">
+                  <div class="clearfix l-unit__stat-col--left super-compact">
+                      <input id="toggle-all" type="checkbox" name="toggle-all" value="toggle-all" onChange="checkedAll('objects');">
+                      <label for="toggle-all" class="check-label toggle-all"></label>
+                    </div>
+                  
                   <div class="clearfix l-unit__stat-col--left wide-5"><b><?php print __('Domain');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left text-center"><b><?php print __('IP address');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left text-center"><b><?php print __('Disk');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left text-center compact"><b><?php print __('Bandwidth');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left text-center"><b><?php print __('SSL');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left text-center compact"><b><?php print __('Statistics');?></b></div>
-              </div>
+                  <div class="clearfix l-unit__stat-col--left"><b>&nbsp;</b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center"><b><?php print __('IP address');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center"><b><?php print __('Disk');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Bandwidth');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center"><b><?php print __('SSL');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Statistics');?></b></div>
              </div>
           </div>
 
@@ -132,57 +117,34 @@
 id="web-unit-<?=$i?>"  sort-ip="<?=str_replace('.', '', $data[$key]['IP'])?>"
 sort-date="<?=strtotime($data[$key]['DATE'].' '.$data[$key]['TIME'])?>"
 sort-name="<?=$key?>"  sort-bandwidth="<?=$data[$key]['U_BANDWIDTH']?>" sort-disk="<?=$data[$key]['U_DISK']?>" sort-star="<? if($_SESSION['WEB'][$key] == 1) echo '1'; else echo '0';?>">
-        <div class="l-unit-toolbar clearfix">
 
-          <!-- l-unit-toolbar__col -->
-          <div class="l-unit-toolbar__col l-unit-toolbar__col--right noselect">
-            <div class="actions-panel clearfix">
-              <div class="actions-panel__col actions-panel__edit shortcut-enter" key-action="href"><a href="/edit/web/?domain=<?=$key?>"><?=__('edit')?> <i></i></a><span class="shortcut enter">&nbsp;&#8629;</span></div>
-              <div class="actions-panel__col actions-panel__logs shortcut-l" key-action="href"><a href="/list/web-log/?domain=<?php echo $key ?>&type=access#" target="_blank"><?=__('view logs')?> <i></i></a><span class="shortcut">&nbsp;L</span></div>
-              <? if (!empty($data[$key]['STATS'])) { ?>
-                  <div class="actions-panel__col actions-panel__logs shortcut-w" key-action="href"><a href="http://<?=$key?>/vstats/"  target="_blank"><?=__('open webstats')?> <i></i></a><span class="shortcut">&nbsp;W</span></div>
-              <? } ?>
-              <div class="actions-panel__col actions-panel__suspend shortcut-s" key-action="js">
-                <a id="<?=$spnd_action ?>_link_<?=$i?>" class="data-controls do_<?=$spnd_action?>">
-                  <?=__($spnd_action)?> <i class="do_<?=$spnd_action?>"></i>
-                  <input type="hidden" name="<?=$spnd_action?>_url" value="/<?=$spnd_action?>/web/?domain=<?=$key?>&token=<?=$_SESSION['token']?>" />
-                  <div id="<?=$spnd_action?>_dialog_<?=$i?>" class="confirmation-text-suspention hidden" title="<?=__('Confirmation')?>">
-                    <p class="confirmation"><?=__($spnd_confirmation,$key)?></p>
-                  </div>
-                </a>
-                <span class="shortcut">&nbsp;S</span>
-              </div>
-              <div class="actions-panel__col actions-panel__delete shortcut-delete" key-action="js">
-                <a id="delete_link_<?=$i?>" class="data-controls do_delete">
-                  <?=__('delete')?> <i class="do_delete"></i>
-                  <input type="hidden" name="delete_url" value="/delete/web/?domain=<?=$key?>&token=<?=$_SESSION['token']?>" />
-                  <div id="delete_dialog_<?=$i?>" class="confirmation-text-delete hidden" title="<?=__('Confirmation')?>">
-                    <p class="confirmation"><?=__('DELETE_DOMAIN_CONFIRMATION',$key)?></p>
-                  </div>
-                </a>
-                <span class="shortcut delete">&nbsp;Del</span>
-              </div>
-
-            </div>
-            <!-- /.actiona-panel -->
-          </div>
-          <!-- l-unit-toolbar__col -->
-        </div>
         <!-- /.l-unit-toolbar -->
 
 
 
             <div class="l-unit__col l-unit__col--right">
-                <div style="margin-bottom: 50px;">
-              <div class="clearfix l-unit__stat-col--left">
+                <div style="">
+              <div class="clearfix l-unit__stat-col--left super-compact">
                 <input id="check<?=$i?>" class="ch-toggle" type="checkbox" name="domain[]" value="<?=$key?>">
                 <label for="check<?=$i?>" class="check-label"></label>
               </div>
-                  <div class="clearfix l-unit__stat-col--left wide-5"><b><?=$key?></b></div>
-                  <div class="clearfix l-unit__stat-col--left text-center"><?=empty($ips[$data[$key]['IP']]['NAT']) ? $data[$key]['IP'] : "{$ips[$data[$key]['IP']]['NAT']}"; ?></div>
-                  <div class="clearfix l-unit__stat-col--left text-center"><b><?=humanize_usage_size($data[$key]['U_DISK'])?></b> <span class="text-small"><?=humanize_usage_measure($data[$key]['U_DISK'])?></span></div>
-                  <div class="clearfix l-unit__stat-col--left text-center compact"><b><?=humanize_usage_size($data[$key]['U_BANDWIDTH'])?></b> <span class="text-small"><?=humanize_usage_measure($data[$key]['U_BANDWIDTH'])?></span></div>
-                  <div class="clearfix l-unit__stat-col--left text-center"><b>
+                  <div class="clearfix l-unit__stat-col--left wide-5"><b><a href="/edit/web/?domain=<?=$key?>"><?=$key?></a></b></div>
+                  <div class="clearfix l-unit__stat-col--left text-right">
+                    <b>
+                        <a href="http://<?=$key?>" target="_blank"><i class="fas fa-external-link-square-alt status-icon-green status-icon-dim icon-large"></i></a>
+                        <a href="/edit/web/?domain=<?=$key?>"><i class="fas fa-pencil-alt status-icon-orange status-icon-dim icon-large"></i></a>
+                         <? if (!empty($data[$key]['STATS'])) { ?>
+                          <a href="http://<?=$key?>/vstats/" target="_blank"><i class="fas fa-list status-icon-green status-icon-dim icon-large"></i>
+                         <? } ?>
+                        <a href="/list/web-log/?domain=<?php echo $key ?>&type=access#" target="_blank"><i class="fas fa-binoculars status-icon-blue status-icon-dim icon-large"></i></a>
+                        <a href="/<?=$spnd_action?>/web/?domain=<?=$key?>&token=<?=$_SESSION['token']?>"><i class="data-controls fas fa-pause-circle status-icon-highlight status-icon-dim icon-large"></i></a>
+                        <a href="/delete/web/?domain=<?=$key?>&token=<?=$_SESSION['token']?>"><i class="fas fa-trash status-icon-red status-icon-dim icon-large"></i></a>
+                    </b>
+                  </div>
+                  <div class="clearfix l-unit__stat-col--left border text-center"><?=empty($ips[$data[$key]['IP']]['NAT']) ? $data[$key]['IP'] : "{$ips[$data[$key]['IP']]['NAT']}"; ?></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center"><b><?=humanize_usage_size($data[$key]['U_DISK'])?></b> <span class="text-small"><?=humanize_usage_measure($data[$key]['U_DISK'])?></span></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?=humanize_usage_size($data[$key]['U_BANDWIDTH'])?></b> <span class="text-small"><?=humanize_usage_measure($data[$key]['U_BANDWIDTH'])?></span></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center"><b>
                       <? if($data[$key]['SUSPENDED'] == 'no'){ ?>
                           <? if($data[$key]['SSL'] == 'no'){ ?>
                             <i class="fas fa-times-circle status-icon-red"></i>
@@ -225,7 +187,7 @@ sort-name="<?=$key?>"  sort-bandwidth="<?=$data[$key]['U_BANDWIDTH']?>" sort-dis
        </div>
 
     <div id="vstobjects">
-      <div class="l-separator"></div>
+      <div class="l-separator visible"></div>
       <div class="l-center">
         <div class="l-unit-ft">
           <table class='data'></table>

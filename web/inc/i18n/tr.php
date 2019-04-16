@@ -733,6 +733,7 @@ $LANG['tr'] = array(
     'every' => 'her',
     'Generate' => 'Generate',
 
+
     'awstats' => 'awstats',
 
     'Hestia SSL' => 'Hestia SSL',

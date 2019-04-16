@@ -732,6 +732,7 @@ $LANG['ko'] = array(
     'every' => '마다',
     'Generate' => '생성',
 
+
     'awstats' => 'Awstats',
 
     'Hestia SSL' => 'Hestia 인증서',

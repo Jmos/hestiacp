@@ -734,6 +734,7 @@ $LANG['vi'] = array(
     'every' => 'mọi',
     'Generate' => 'Tạo',
 
+
     'awstats' => 'awstats',
 
     'Hestia SSL' => 'Hestia SSL',

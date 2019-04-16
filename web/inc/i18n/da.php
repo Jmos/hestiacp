@@ -733,7 +733,7 @@ $LANG['da'] = array(
     'every two minutes' => 'every two minutes',
     'every' => 'every',
     'Generate' => 'Generate',
-
+,
     'awstats' => 'awstats',
 
     'Hestia SSL' => 'Hestia SSL',

@@ -732,6 +732,7 @@ $LANG['pt-BR'] = array(
     'every' => 'cada',
     'Generate' => 'Gerar',
 
+
     'awstats' => 'awstats',
 
     'Hestia SSL' => 'Hestia SSL',

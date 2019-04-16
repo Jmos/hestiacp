@@ -1,57 +1,43 @@
     <div class="l-center">
       <div class="l-sort clearfix noselect">
-        <a href="/add/firewall/banlist/" class="l-sort__create-btn" title="<?=__('Ban IP Address')?>"></a>
-
-        <div class="l-sort-toolbar clearfix">
-          <table>
-            <tr>
-              <td class="l-sort-toolbar__search-box">
-                <form action="/search/" method="get">
-                  <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
-                  <input type="text" name="q" class="search-input" value="<? echo isset($_POST['q']) ? htmlspecialchars($_POST['q']) : '' ?>" />
-                  <input type="submit" value="" class="l-sort-toolbar__search" onClick="return doSearch('/search/')" />
-                </form>
-              </td>
-              <td class="toggle-all">
-                <input id="toggle-all" type="checkbox" name="toggle-all" value="toggle-all"  onChange="checkedAll('objects');">
-                <label for="toggle-all" class="check-label toggle-all"><?=__('toggle all')?></label>
-              </td>
-              <td>
-                <form action="/bulk/firewall/banlist/" method="post" id="objects">
-                <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
-                <div class="l-select">
-                  <select name="action" id="">
-                    <option value=""><?=__('apply to selected')?></option>
-                    <option value="delete"><?php print __('delete') ?></option>
-                  </select>
-                </div>
-                <input type="submit" value="" class="l-sort-toolbar__filter-apply" />
-              </td>
-            </tr>
-          </table>
+            <div class="l-sort-toolbar clearfix page-toolbar">
+                <div class="l-center">
+                    <a href="/list/firewall/" title="<?=__('Back')?>"><i class="fas fa-arrow-circle-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Back')?></a>&nbsp;&nbsp;
+                    <a href="/add/firewall/banlist/" class="" title="<?=__('Ban IP Address')?>"><i class="fas fa-ban status-icon-red"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Ban IP Address')?></a>
+          
+                    <div class="clearfix" style="float: right;">
+                      <form action="/bulk/firewall/banlist/" method="post" id="objects">
+                      <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
+                      <div class="l-select">
+                        <select name="action">
+                          <option value=""><?=__('apply to selected')?></option>
+                          <option value="delete"><?=__('delete')?></option>
+                        </select>
+                      </div>
+                      <button type="submit" class="l-sort-toolbar__filter-apply" value=""><i class="fas fa-arrow-right"></i></button>
+                     </div>
+                   </div>
+               </div>
+            </div>
         </div>
-      </div>
-      <!-- /.l-sort -->
-    </div>
 
     <div class="l-separator"></div>
     <!-- /.l-separator -->
 
 
-    <div class="l-center units animated fadeIn">
-        <div class="l-unit header">
-            <div class="l-unit__col l-unit__col--left clearfix">
-              <div class="text-center jump-small-top"></div>
-            </div>
-      
-            <div class="l-unit__col l-unit__col--right step-top table-header">
-              <div style="margin-bottom: 40px;">
-                  <div class="clearfix l-unit__stat-col--left"><b><?php print __('Date');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left"><b><?php print __('Time');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left wide text-center"><b><?php print __('Comment');?></b></div>   
-                  <div class="clearfix l-unit__stat-col--left text-center"><b><?php print __('IP address');?></b></div>
-              </div>
-            </div>
+    <div class="l-center units compact animated fadeIn">         
+        <div class="l-unit table-header">
+            <div class="l-unit__col l-unit__col--right">
+                  <div class="clearfix l-unit__stat-col--left super-compact">
+                      <input id="toggle-all" type="checkbox" name="toggle-all" value="toggle-all" onChange="checkedAll('objects');">
+                      <label for="toggle-all" class="check-label toggle-all"></label>
+                    </div>
+                    <div class="clearfix l-unit__stat-col--left wide-5"><b><?php print __('IP address');?></b></div>
+                    <div class="clearfix l-unit__stat-col--left compact"><b>&nbsp;</b></div>
+                    <div class="clearfix l-unit__stat-col--left border text-center"><b><?php print __('Comment');?></b></div>   
+                    <div class="clearfix l-unit__stat-col--left border text-center"><b><?php print __('Date');?></b></div>
+                    <div class="clearfix l-unit__stat-col--left border text-center"><b><?php print __('Time');?></b></div>
+             </div>
           </div>
 
       <?php
@@ -62,45 +48,24 @@
       ?>
 
       <div class="l-unit<? if($status == 'suspended') echo ' l-unit--suspended';?>">
-        <div class="l-unit-toolbar clearfix">
-          <div class="l-unit-toolbar__col l-unit-toolbar__col--left">
-            <input id="check<?php echo $i ?>" class="ch-toggle" type="checkbox" name="ipchain[]" value="<?php echo $ip . ':' . $value['CHAIN'] ?>">
-            <label for="check<?php echo $i ?>" class="check-label"></label>
-          </div>
-          <!-- l-unit-toolbar__col -->
-          <div class="l-unit-toolbar__col l-unit-toolbar__col--right noselect">
-            <div class="actions-panel clearfix">
-              <div class="actions-panel__col actions-panel__delete shortcut-delete" key-action="js">
-                <a id="delete_link_<?=$i?>" class="data-controls do_delete">
-                  <?=__('delete')?> <i class="do_delete"></i>
-                  <input type="hidden" name="delete_url" value="/delete/firewall/banlist/?ip=<?=$ip?>&chain=<?=$value['CHAIN']?>&token=<?=$_SESSION['token']?>" />
-                  <div id="delete_dialog_<?=$i?>" class="confirmation-text-delete hidden" title="<?=__('Confirmation')?>">
-                    <p class="confirmation"><?=__('DELETE_IP_CONFIRMATION',$key)?></p>
-                  </div>
-                </a>
-                <span class="shortcut delete">&nbsp;Del</span>
-              </div>
-
-            </div>
-            <!-- /.actiona-panel -->
-          </div>
-          <!-- l-unit-toolbar__col -->
-        </div>
-        <!-- /.l-unit-toolbar -->
-
-        <div class="l-unit__col l-unit__col--left clearfix"></div>
-        <!-- /.l-unit__col -->
         <div class="l-unit__col l-unit__col--right">
-          <div class="l-unit__stats">
-              <div class="clearfix l-unit__stat-col--left"><b><?=__($data[$key]['DATE'])?></b></div>
-              <div class="clearfix l-unit__stat-col--left"><b><?=$data[$key]['TIME']?></b></div>
-              <div class="clearfix l-unit__stat-col--left wide text-center"><b><?=__($value['CHAIN'])?></b></div>
-              <div class="clearfix l-unit__stat-col--left text-center"><?=$ip?></div>
+            <div style="">
+                <div class="clearfix l-unit__stat-col--left super-compact">
+                      <input id="check<?php echo $i ?>" class="ch-toggle" type="checkbox" name="rule[]" value="<?php echo $key ?>">
+                      <label for="check<?php echo $i ?>" class="check-label"></label>
+                    </div>
+                    <div class="clearfix l-unit__stat-col--left wide-5"><b><?=$ip?></b></div>
+                    <div class="clearfix l-unit__stat-col--left compact text-right"><b><a href="/delete/firewall/banlist/?ip=<?=$ip?>&chain=<?=$value['CHAIN']?>&token=<?=$_SESSION['token']?>"><i class="fas fa-trash status-icon-red status-icon-dim icon-large"></i></a></b></div>
+                    <div class="clearfix l-unit__stat-col--left border text-center"><b><?=__($value['CHAIN'])?></b></div>
+                    <div class="clearfix l-unit__stat-col--left border text-center"><?=__($data[$key]['DATE'])?></div>
+                    <div class="clearfix l-unit__stat-col--left border text-center"><?=$data[$key]['TIME']?></div>
+                    
+                    
+                    
+              </div>
+            </div>
           </div>
-          <!-- /.l-unit__stats -->
-        </div>
-        <!-- /.l-unit__col -->
-      </div>
+  
       <!-- /.l-unit -->
       <!-- div class="l-separator"></div-->
       <!-- /.l-separator -->
@@ -109,7 +74,7 @@
     </div>
 
     <div id="vstobjects">
-        <div class="l-separator"></div>
+        <div class="l-separator visible"></div>
     <div class="l-center">
         <div class="l-unit-ft">
           <table class='data'></table>
@@ -127,9 +92,6 @@
                 echo __('%s banned IP addresses',$i);
               }
             ?>
-          </div>
-          <div class="data-count l-unit__col l-unit__col--right back clearfix">
-            <a class="button cancel" href="/list/firewall/"><?=__('Back')?></a>
           </div>
       </div>
     </div>

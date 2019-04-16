@@ -734,6 +734,7 @@ $LANG['ro'] = array(
     'every' => 'fiecare',
     'Generate' => 'Generează',
 
+
     'awstats' => 'awstats',
 
     'Hestia SSL' => 'Hestia SSL',

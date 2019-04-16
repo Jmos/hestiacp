@@ -737,6 +737,7 @@ $LANG['tw'] = array(
     'every' => '每',
     'Generate' => '產生',
 
+
     'awstats' => 'awstats',
 
     'Hestia SSL' => 'Hestia 後台 SSL',

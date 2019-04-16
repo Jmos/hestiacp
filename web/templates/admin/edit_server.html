@@ -269,6 +269,9 @@
                                             </td>
                                         </tr>
                                         <?php } ?>
+                                        <!--
+                                                # TO-DO: Re-enable webmail URL customization
+                                                # once vhost configuration backend is completed
                                         <tr>
                                             <td class="vst-text">
                                                 <?php print __('Webmail URL') ?>
@@ -279,7 +282,7 @@
                                                 <input type="text" size="20" class="vst-input" name="v_mail_url" value="<?php echo $_SESSION['MAIL_URL']; ?>">
                                                 <br><br>
                                             </td>
-                                        </tr>
+                                        </tr>-->
 
                                     </table>
                                 </td>
@@ -590,6 +593,7 @@
                                         <tr>
                                             <td class="vst-text input-label">
                                                 <?php print __('SSL Certificate');?>
+                                                <span id="generate-csr"> / <a class="generate" target="_blank" href="/generate/ssl/?domain=<?=$v_domain?>"><?=__('Generate CSR')?></a></span>
                                             </td>
                                         </tr>
                                         <tr>
