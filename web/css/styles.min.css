@@ -1917,6 +1917,9 @@ div.l-content > div.l-separator:nth-of-type(4) {
 .l-unit__stat-col--left.compact-3 {
   width: 90px;
 }
+.l-unit__stat-col--left.compact-4 {
+  width: 160px;
+}
 .l-unit__stat-col--left.wide {
   width: 190px;
 }
