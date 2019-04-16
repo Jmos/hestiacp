@@ -106,19 +106,15 @@ if [ ! -z "$MAIL_SYSTEM" ]; then
     apt-get -qq update > /dev/null 2>&1
     apt-get -qq -y install z-push-common z-push-backend-imap z-push-backend-combined z-push-autodiscover > /dev/null 2>&1
 
-    # Copy configuration files
-    if [ -z /etc/z-push/ ]; then
-        echo "(I) Adding Z-Push configuration directory"
-        mkdir -p /etc/z-push/
-    fi
+    echo "(I) Adding Z-Push configuration directory"
+    mkdir -p /etc/z-push/
     cp -f $hestiacp/zpush/z-push.conf.php /etc/z-push/
     cp -f $hestiacp/zpush/imap.conf.php /etc/z-push/
 
     # Set permissions - chmod 777 needs further testing!
-    if [ -z /var/log/z-push ]; then
-        echo "(I) Adding Z-Push logs directory"
-        mkdir -p /var/log/z-push
-    fi
+    echo "(I) Adding Z-Push logs directory"
+    mkdir -p /var/log/z-push
+
     chmod 777 /var/lib/z-push
     chown -R www-data:www-data /var/lib/z-push
     chmod 777 /var/log/z-push
