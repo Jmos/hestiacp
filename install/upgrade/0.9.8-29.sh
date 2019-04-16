@@ -45,7 +45,7 @@ echo ' |_| |_|\___||___/\__|_|\__,_|\____|_|    '
 echo
 echo '                      Hestia Control Panel'
 echo -e "\n\n"
-echo "Upgrading to Hestia Control Panel v$VERSION..."
+echo "Upgrading Hestia Control Panel..."
 echo "==================================================="
 echo ""
 echo "This process may take a few minutes, please wait..."
@@ -200,6 +200,16 @@ if [ "$PROXY_SYSTEM" = "nginx" ]; then
             sed -i 's/directIP/'$ipaddr'/g' /etc/nginx/conf.d/$ipaddr.conf
         done
     fi
+fi
+
+# Fix empty pool error message for multiphp
+php_versions=$( ls -l /etc/php/ | grep ^d | wc -l )
+if [ "$php_versions" -gt 1 ]; then
+    for v in $(ls /etc/php/); do
+        cp -f $hestiacp/php-fpm/dummy.conf /etc/php/$d/fpm/pool.d/
+        v1=$(echo "$v" | sed -e 's/[.]//')
+        sed -i "s/9999/9999$v1/g" /etc/php/$v/fpm/pool.d/dummy.conf
+    done
 fi
 
 # Set Purge to false in roundcube config - https://goo.gl/3Nja3u
