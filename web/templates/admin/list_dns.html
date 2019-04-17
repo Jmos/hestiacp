@@ -86,7 +86,7 @@ sort-expire="<?=strtotime($data[$key]['EXP'])?>" sort-records="<?=(int)$data[$ke
                           <a href="/add/dns/?domain=<?=$key?>"><i class="fas fa-plus-circle status-icon-green status-icon-dim icon-large"></i></a>
                           <a href="/list/dns/?domain=<?=$key?>"><i class="fas fa-pencil-alt status-icon-orange status-icon-dim icon-large"></i></a>
                           <a href="/edit/dns/?domain=<?=$key?>"><i class="fas fa-cog status-icon-blue status-icon-dim icon-large"></i></a>
-                          <a href="/<?=$spnd_action?>/dns/?domain=<?=$key?>&token=<?=$_SESSION['token']?>"><i class="data-controls fas fa-pause-circle status-icon-highlight status-icon-dim icon-large"></i></a>
+                          <a href="/<?=$spnd_action?>/dns/?domain=<?=$key?>&token=<?=$_SESSION['token']?>"><i class="data-controls far fa-pause-circle status-icon-highlight status-icon-dim icon-large"></i></a>
                           <a href="/delete/dns/?domain=<?=$key?>&token=<?=$_SESSION['token']?>"><i class="fas fa-trash status-icon-red status-icon-dim icon-large"></i></a>
                       </b>
                   </div>

@@ -79,7 +79,7 @@ sort-star="<? if($_SESSION['favourites']['MAIL_ACC'][$key."@".$_GET['domain']] =
                 <div class="clearfix l-unit__stat-col--left wide-5"><b><a href="/edit/mail/?domain=<?=$_GET['domain']?>&account=<?=$key?>"><?=$key."@".$_GET['domain']?></a></b></div>
                 <div class="clearfix l-unit__stat-col--left text-right compact"><b>
                     <a href="/edit/mail/?domain=<?=$_GET['domain']?>&account=<?=$key?>"><i class="fas fa-pencil-alt status-icon-orange status-icon-dim icon-large"></i></a>
-                    <a href="/<?=$spnd_action?>/mail/?domain=<?=$_GET['domain']?>&account=<?php echo $key ?>&token=<?=$_SESSION['token']?>"><i class="data-controls fas fa-pause-circle status-icon-highlight status-icon-dim icon-large"></i></a>
+                    <a href="/<?=$spnd_action?>/mail/?domain=<?=$_GET['domain']?>&account=<?php echo $key ?>&token=<?=$_SESSION['token']?>"><i class="data-controls far fa-pause-circle status-icon-highlight status-icon-dim icon-large"></i></a>
                     <a href="/delete/mail/?domain=<?=$_GET['domain']?>&account=<?=$key?>&token=<?=$_SESSION['token']?>"><i class="fas fa-trash status-icon-red status-icon-dim icon-large"></i></a>
                 </b></div>
                 <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?=humanize_usage_size($data[$key]['U_DISK'])?></b> <span class="text-small"><?=humanize_usage_measure($data[$key]['U_DISK'])?></span></div>
