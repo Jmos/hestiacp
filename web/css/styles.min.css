@@ -3116,6 +3116,10 @@ td.hint {
   text-shadow: 0px 1px rgba(255,255,255,0.5);
 }
 
+.ui-button-text-only .selected {
+  font-weight: 600 !important;
+}
+
 .ui-button.cancel,
 .button.cancel {
   color: #717171 !important;
