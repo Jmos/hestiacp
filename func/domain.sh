@@ -309,6 +309,8 @@ del_web_config() {
     # Remove domain configuration files and clean up symbolic links
     rm -f /etc/$WEB_SYSTEM/conf.d/domains/$domain.conf 
     rm -f /etc/$PROXY_SYSTEM/conf.d/domains/$domain.conf 
+    rm -f /etc/$WEB_SYSTEM/conf.d/domains/$domain.ssl.conf 
+    rm -f /etc/$PROXY_SYSTEM/conf.d/domains/$domain.ssl.conf 
 
     # Clean up legacy configuration files
     if [ -e "$conf" ]; then
@@ -580,6 +582,91 @@ is_mail_new() {
     fi
 }
 
+
+# Add mail server SSL configuration
+add_mail_ssl_config() {
+     # Ensure that SSL certificate directories exists
+    if [ ! -d $HOMEDIR/$user/conf/mail/$domain/ssl/ ]; then
+        mkdir -p $HOMEDIR/$user/conf/mail/$domain/ssl/
+    fi
+
+    if [ ! -d /usr/local/hestia/ssl/mail ]; then
+        mkdir -p /usr/local/hestia/ssl/mail
+    fi
+
+    if [ ! -d /etc/dovecot/conf.d/domains ]; then
+        mkdir -p /etc/dovecot/conf.d/domains
+    fi
+
+    # Add certificate to Hestia user configuration data directory
+    if [ -f $ssl_dir/$domain.crt ]; then
+        cp -f $ssl_dir/$domain.crt $USER_DATA/ssl/mail.$domain.crt
+        cp -f $ssl_dir/$domain.key $USER_DATA/ssl/mail.$domain.key
+        cp -f $ssl_dir/$domain.crt $USER_DATA/ssl/mail.$domain.pem
+        if [ -e "$ssl_dir/$domain.ca" ]; then
+            cp -f $ssl_dir/$domain.ca $USER_DATA/ssl/mail.$domain.ca
+            echo >> $USER_DATA/ssl/mail.$domain.pem
+            cat $USER_DATA/ssl/mail.$domain.ca >> $USER_DATA/ssl/mail.$domain.pem
+        fi
+    fi
+    
+    chmod 660 $USER_DATA/ssl/mail.$domain.*
+
+    # Add certificate to user home directory
+    cp -f $USER_DATA/ssl/mail.$domain.crt $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.crt
+    cp -f $USER_DATA/ssl/mail.$domain.key $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.key
+    cp -f $USER_DATA/ssl/mail.$domain.pem $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.pem
+    if [ -e "$USER_DATA/ssl/mail.$domain.ca" ]; then
+        cp -f $USER_DATA/ssl/mail.$domain.ca $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.ca
+    fi
+
+    # Add domain SSL configuration to dovecot
+    if [ -f /etc/dovecot/conf.d/domains/$domain.conf ]; then
+        rm -f /etc/dovecot/conf.d/domains/$domain.conf
+    fi
+    
+    echo "" >> /etc/dovecot/conf.d/domains/$domain.conf
+    echo "local_name mail.$domain {" >> /etc/dovecot/conf.d/domains/$domain.conf
+    echo "  ssl_cert = <$HOMEDIR/$user/conf/mail/$domain/ssl/$domain.pem" >> /etc/dovecot/conf.d/domains/$domain.conf
+    echo "  ssl_key = <$HOMEDIR/$user/conf/mail/$domain/ssl/$domain.key" >> /etc/dovecot/conf.d/domains/$domain.conf
+    echo "}" >> /etc/dovecot/conf.d/domains/$domain.conf
+
+    # Add domain SSL configuration to exim4
+    ln -s $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.pem /usr/local/hestia/ssl/mail/mail.$domain.crt
+    ln -s $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.key /usr/local/hestia/ssl/mail/mail.$domain.key
+
+    # Set correct permissions on certificates
+    chmod 0644 $HOMEDIR/$user/conf/mail/$domain/ssl/*
+    chown -h $user:mail $HOMEDIR/$user/conf/mail/$domain/ssl/*
+    chmod -R 0644 /usr/local/hestia/ssl/mail/*
+    chown -h $user:mail /usr/local/hestia/ssl/mail/*
+}
+
+# Delete SSL support for mail domain
+del_mail_ssl_config() {
+    
+    # Remove old mail certificates
+    rm -f $HOMEDIR/$user/conf/mail/$domain/ssl/*
+
+    # Remove dovecot configuration
+    rm -f /etc/dovecot/conf.d/domains/mail.$domain.conf
+
+    # Remove SSL vhost configuration
+    rm -f $HOMEDIR/$user/conf/mail/$domain/*.*ssl.conf
+    rm -f /etc/$WEB_SYSTEM/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
+    rm -f /etc/$PROXY_SYSTEM/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
+
+    # Remove SSL certificates
+    rm -f $HOMEDIR/$user/conf/mail/$domain/ssl/*
+    rm -f /usr/local/hestia/ssl/mail/mail.$domain.*
+}
+
+# Delete generated certificates from user configuration data directory
+del_mail_ssl_certificates(){
+    rm -f $USER_DATA/ssl/mail.$domain.*
+    rm -f $HOMEDIR/$user/conf/mail/$domain/ssl/*
+}
+
 # Add webmail config
 add_webmail_config() {
     mkdir -p "$HOMEDIR/$user/conf/mail/$domain"
@@ -643,95 +730,29 @@ add_webmail_config() {
     fi
     if [ "$2" = "default.stpl" ]; then
         if [ ! -z "$WEB_SYSTEM" ]; then
+            forcessl="$HOMEDIR/$user/conf/mail/$domain/$WEB_SYSTEM.forcessl.conf"
             rm -f /etc/$1/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
             ln -s $conf /etc/$1/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
         fi
         if [ ! -z "$PROXY_SYSTEM" ]; then
+            forcessl="$HOMEDIR/$user/conf/mail/$domain/$PROXY_SYSTEM.forcessl.conf"
             rm -f /etc/$1/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
             ln -s $conf /etc/$1/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
         fi
-        # Clear old configurations
+
+        # Add rewrite rules to force HTTPS/SSL connections
+        if [ ! -z "$PROXY_SYSTEM" ]; then
+            echo 'return 301 https://$server_name$request_uri;' > $forcessl
+        else
+            echo 'RewriteEngine On' > $forcessl
+            echo 'RewriteRule ^(.*)$ https://%{HTTP_HOST}$1 [R=301,L]' >> $forcessl
+        fi
+
+        # Remove old configurations
         rm -rf $HOMEDIR/$user/conf/mail/$domain.*
         rm -rf $HOMEDIR/$user/conf/mail/ssl.$domain.*
         rm -rf $HOMEDIR/$user/conf/mail/*nginx.$domain.*
     fi
-}
-
-# Add mail server SSL configuration
-add_mail_ssl_config() {
-     # Ensure that SSL certificate directories exists
-    if [ ! -d $HOMEDIR/$user/conf/mail/$domain/ssl/ ]; then
-        mkdir -p $HOMEDIR/$user/conf/mail/$domain/ssl/
-    fi
-
-    if [ ! -d /usr/local/hestia/ssl/mail ]; then
-        mkdir -p /usr/local/hestia/ssl/mail
-    fi
-
-    if [ ! -d /etc/dovecot/conf.d/domains ]; then
-        mkdir -p /etc/dovecot/conf.d/domains
-    fi
-
-    # Add certificate to Hestia user configuration data directory
-    cp -f $ssl_dir/$domain.crt $USER_DATA/ssl/mail.$domain.crt
-    cp -f $ssl_dir/$domain.key $USER_DATA/ssl/mail.$domain.key
-    cp -f $ssl_dir/$domain.crt $USER_DATA/ssl/mail.$domain.pem
-    if [ -e "$ssl_dir/$domain.ca" ]; then
-        cp -f $ssl_dir/$domain.ca $USER_DATA/ssl/mail.$domain.ca
-        echo >> $USER_DATA/ssl/mail.$domain.pem
-        cat $USER_DATA/ssl/mail.$domain.ca >> $USER_DATA/ssl/mail.$domain.pem
-    fi
-
-    chmod 660 $USER_DATA/ssl/mail.$domain.*
-
-    # Add certificate to user home directory
-    cp -f $USER_DATA/ssl/mail.$domain.crt $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.crt
-    cp -f $USER_DATA/ssl/mail.$domain.key $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.key
-    cp -f $USER_DATA/ssl/mail.$domain.pem $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.pem
-    if [ -e "$USER_DATA/ssl/mail.$domain.ca" ]; then
-        cp -f $USER_DATA/ssl/mail.$domain.ca $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.ca
-    fi
-
-    # Add domain SSL configuration to dovecot
-    if [ -f /etc/dovecot/conf.d/domains/$domain.conf ]; then
-        rm -f /etc/dovecot/conf.d/domains/$domain.conf
-    fi
-    
-    echo "" >> /etc/dovecot/conf.d/domains/$domain.conf
-    echo "local_name mail.$domain {" >> /etc/dovecot/conf.d/domains/$domain.conf
-    echo "  ssl_cert = <$HOMEDIR/$user/conf/mail/$domain/ssl/$domain.pem" >> /etc/dovecot/conf.d/domains/$domain.conf
-    echo "  ssl_key = <$HOMEDIR/$user/conf/mail/$domain/ssl/$domain.key" >> /etc/dovecot/conf.d/domains/$domain.conf
-    echo "}" >> /etc/dovecot/conf.d/domains/$domain.conf
-
-    # Add domain SSL configuration to exim4
-    ln -s $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.pem /usr/local/hestia/ssl/mail/mail.$domain.crt
-    ln -s $HOMEDIR/$user/conf/mail/$domain/ssl/$domain.key /usr/local/hestia/ssl/mail/mail.$domain.key
-
-    # Set correct permissions on certificates
-    chmod 0644 $HOMEDIR/$user/conf/mail/$domain/ssl/*
-    chown -h $user:mail $HOMEDIR/$user/conf/mail/$domain/ssl/*
-    chmod -R 0644 /usr/local/hestia/ssl/mail/*
-    chown -h $user:mail /usr/local/hestia/ssl/mail/*
-}
-
-# Delete SSL support for mail domain
-del_mail_ssl_config() {
-    
-    # Remove old mail certificates
-    rm -f $HOMEDIR/$user/conf/mail/$domain/ssl/*
-
-    # Remove dovecot configuration
-    rm -f /etc/dovecot/conf.d/domains/mail.$domain.conf
-
-    # Remove SSL vhost configuration
-    rm -f $HOMEDIR/$user/conf/mail/$domain/*.ssl.conf
-    rm -f /etc/$WEB_SYSTEM/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
-    rm -f /etc/$PROXY_SYSTEM/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
-
-    # Remove SSL certificates
-    rm -f $HOMEDIR/$user/conf/mail/$domain/ssl/*
-    rm -f $USER_DATA/ssl/mail.$domain.*
-    rm -f /usr/local/hestia/ssl/mail/mail.$domain.*
 }
 
 # Delete webmail support
@@ -739,27 +760,23 @@ del_webmail_config() {
     if [ ! -z "$WEB_SYSTEM" ]; then 
         rm -f $HOMEDIR/$user/conf/mail/$domain/$WEB_SYSTEM.conf
         rm -f /etc/$WEB_SYSTEM/conf.d/domains/$WEBMAIL_ALIAS.$domain.conf
-        rm -f $HOMEDIR/$user/conf/mail/$domain/$WEB_SYSTEM.ssl.conf
-        rm -f /etc/$WEB_SYSTEM/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
     fi
 
     if [ ! -z "$PROXY_SYSTEM" ]; then
-        rm -f $HOMEDIR/$user/conf/mail/$domain/$PROXY_SYSTEM.conf
+        rm -f $HOMEDIR/$user/conf/mail/$domain/$PROXY_SYSTEM.*conf
         rm -f /etc/$PROXY_SYSTEM/conf.d/domains/$WEBMAIL_ALIAS.$domain.conf
-        rm -f $HOMEDIR/$user/conf/mail/$domain/$PROXY_SYSTEM.ssl.conf
-        rm -f /etc/$PROXY_SYSTEM/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
     fi
 }
 
 # Delete SSL webmail support
 del_webmail_ssl_config() {
     if [ ! -z "$WEB_SYSTEM" ]; then 
-        rm -f $HOMEDIR/$user/conf/mail/$domain/$WEB_SYSTEM.ssl.conf
+        rm -f $HOMEDIR/$user/conf/mail/$domain/$WEB_SYSTEM.*ssl.conf
         rm -f /etc/$WEB_SYSTEM/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
     fi
     
     if [ ! -z "$PROXY_SYSTEM" ]; then
-        rm -f $HOMEDIR/$user/conf/mail/$domain/$PROXY_SYSTEM.ssl.conf
+        rm -f $HOMEDIR/$user/conf/mail/$domain/$PROXY_SYSTEM.*ssl.conf
         rm -f /etc/$PROXY_SYSTEM/conf.d/domains/$WEBMAIL_ALIAS.$domain.ssl.conf
     fi
 }
