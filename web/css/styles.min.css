@@ -3199,36 +3199,6 @@ a.button.cancel {
   color: #ccc;
 }
 
-.overview-table {
-	display: table;   /* Allow the centering to work */
-	margin: 0 auto;
-}
-
-.overview-circles ul li {
-  background: #31639b !important;
-  color: #fff;
-  border: 3px solid #fff;
-  box-shadow: 0px 2px rgba(0,0,0,0.25);
-  border-radius: 50%;
-  padding: 30px;
-  text-shadow: 1px 1px rgba(0,0,0,0.25);
-  font-size: 18px;
-  font-weight: 800;
-  display: inline;
-  text-decoration: none;
-  width: 30px;
-  height: 30px;
-
-}
-
-ul#overview-table {
-	list-style: none;
-	}
-	ul#overview-table li {
-		display: inline;
-	}
-
-
 .unlim-trigger {
   cursor: pointer;
   margin-left: -40px;
