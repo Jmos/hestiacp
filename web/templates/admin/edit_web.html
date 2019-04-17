@@ -1,20 +1,36 @@
-    <div class="l-center edit">
-      <div class="l-sort clearfix">
-        <div class="l-sort-toolbar clearfix float-left">
-          <span class="title edit"><b><?=__('Editing Domain')?></b></span>
-            <?php
-              if (!empty($_SESSION['error_msg'])) {
-                echo "<span class=\"vst-error\"> → ".htmlentities($_SESSION['error_msg'])."</span>";
-              } else {
-                if (!empty($_SESSION['ok_msg'])) {
-                  echo "<span class=\"vst-ok\"> → ".$_SESSION['ok_msg']."</span>";
-                }
-              }
-            ?>
-        </div>
-      </div>
-    </div>
-
+    <div class="l-center">
+            <div class="l-sort clearfix noselect">
+              <ul class="context-menu sort-order" style="display:none;">
+                <li entity="sort-action"><span class="name active"><?=__('Action')?></span><span class="up">&nbsp;</span></li>
+                <li entity="sort-protocol"><span class="name"><?=__('Protocol')?></span><span class="up">&nbsp;</span></li>
+                <li entity="sort-port"><span class="name"><?=__('Port')?></span><span class="up">&nbsp;</span></li>
+                <li entity="sort-ip" sort_as_int="1"><span class="name"><?=__('IP address')?></span><span class="up">&nbsp;</span></li>
+                <li entity="sort-comment"><span class="name"><?=__('Comment')?></span><span class="up">&nbsp;</span></li>
+                <li entity="sort-star"><span class="name"><?=__('Starred')?></span><span class="up">&nbsp;</span></li>
+              </ul>
+              <div class="l-sort-toolbar clearfix page-toolbar">
+                  <div class="l-center">
+                    <a href="/list/web/" title="<?=__('Back')?>"><i class="fas fa-arrow-circle-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Back')?></a>&nbsp;&nbsp;
+                      <div class="clearfix" style="float: right;">
+                            
+                            <?php
+                            if (!empty($_SESSION['error_msg'])) {
+                              echo "<span class=\"vst-error\"> → ".htmlentities($_SESSION['error_msg'])."</span>";
+                            } else {
+                              if (!empty($_SESSION['ok_msg'])) {
+                                echo "<span class=\"vst-ok\"> → ".$_SESSION['ok_msg']."</span>";
+                              }
+                            }
+                          ?>
+                          
+                          <a href="#" onclick="document.getElementById('vstobjects').submit();" title="<?=__('Save')?>"><i class="fas fa-save status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Save')?></a>&nbsp;&nbsp;
+                          <a href="/delete/web/?domain=<?=$v_domain?>&token=<?=$_SESSION['token']?>" title="<?=__('Delete')?>"><i class="fas fa-trash status-icon-red"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Delete')?></a>
+                     </div>
+                 </div>
+              </div>
+             
+          </div>
+  
     <div class="l-separator"></div>
     <!-- /.l-separator -->
 

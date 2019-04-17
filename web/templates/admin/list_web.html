@@ -11,7 +11,9 @@
         <div class="l-sort-toolbar clearfix page-toolbar">
 
         <div class="l-center">
-          <a href="/add/web/" class="" title="<?=__('Add Web Domain')?>"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Add Web Domain')?></a>
+          <a href="/add/web/" class="" title="<?=__('Add Web Domain')?>"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Add Web Domain')?></a>&nbsp;&nbsp;
+          <a href="/add/db/" class="toolbar-button" title="<?=__('Add Database')?>"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Add Database')?></a>&nbsp;&nbsp;
+          <a href="/list/db/" class="toolbar-button" title="<?=__('View Databases')?>"><i class="fas fa-database status-icon-orange"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('View Databases')?></a>&nbsp;&nbsp;
 
           <div class="clearfix" style="float: right;">
             <form action="/bulk/web/" method="post" id="objects">
@@ -44,11 +46,11 @@
                   
                   <div class="clearfix l-unit__stat-col--left wide-5"><b><?php print __('Domain');?></b></div>
                   <div class="clearfix l-unit__stat-col--left"><b>&nbsp;</b></div>
-                  <div class="clearfix l-unit__stat-col--left border text-center"><b><?php print __('IP address');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left border text-center"><b><?php print __('Disk');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Bandwidth');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left border text-center"><b><?php print __('SSL');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Statistics');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border-clear text-center"><b><?php print __('IP address');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border-clear text-center"><b><?php print __('Disk');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border-clear text-center compact"><b><?php print __('Bandwidth');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border-clear text-center"><b><?php print __('SSL');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border-clear text-center compact"><b><?php print __('Statistics');?></b></div>
              </div>
           </div>
 
@@ -160,7 +162,7 @@ sort-name="<?=$key?>"  sort-bandwidth="<?=$data[$key]['U_BANDWIDTH']?>" sort-dis
                       <? } ?>
                       </b>
                   </div>
-                  <div class="clearfix l-unit__stat-col--left text-center compact"><b>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b>
                       <? if($data[$key]['SUSPENDED'] == 'no'){ ?>
                           <? if($web_stats == 'no'){ ?>
                             <i class="fas fa-minus-circle"></i>

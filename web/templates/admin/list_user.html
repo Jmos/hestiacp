@@ -13,11 +13,17 @@
             <div class="l-center">
                 <?php
                   if ($user == 'admin') {
-                    echo '<a href="/add/user/" title="'.__('Add User').'"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;'.__('Add User').'</a>';
+                    echo '<a href="/add/user/" class="toolbar-button" title="'.__('Add User').'"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;'.__('Add User').'</a>&nbsp;&nbsp;&nbsp;';
+                    echo '<a href="/list/package/" class="toolbar-button" title="'.__('Packages').'"><i class="fas fa-cube status-icon-orange"></i>&nbsp;&nbsp;&nbsp;&nbsp;'.__('Packages').'</a>&nbsp;&nbsp;&nbsp;';
                   } else {
-                    echo '<a href="/add/web/" title="'.__('Add Web Domain').'"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;'.__('Add Web Domain').'</a>';
+                    echo '<a href="/add/web/" class="toolbar-button" title="'.__('Add Web Domain').'"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;'.__('Add Web Domain').'</a>&nbsp;&nbsp;&nbsp;';
                   }
                 ?>
+                <a href="/list/cron/" class="toolbar-button" title="<?=__('Cron')?>"><i class="fas fa-clock status-icon-blue"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Cron Jobs')?></a>&nbsp;&nbsp;
+                <a href="/list/backup/" class="toolbar-button" title="<?=__(Backups)?>"><i class="fas fa-cloud-download-alt status-icon-lightblue"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Backups')?></a>&nbsp;&nbsp;
+                <a href="/list/stats/" class="toolbar-button" title="<?=__('Statistics')?>"><i class="fas fa-chart-pie status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Statistics')?></a>&nbsp;&nbsp;
+                <a href="/list/log/" class="toolbar-button" title="<?=__('Logs')?>"><i class="fas fa-list-alt status-icon-blue"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('View Logs')?></a>
+                
               <div class="clearfix" style="float: right;">
                 <form action="/bulk/user/" method="post" id="objects">
                 <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
@@ -54,11 +60,11 @@
                   <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Package');?></b></div>
                   <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Disk');?></b></div>
                   <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Bandwidth');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left border text-center super-compact"><b><?php print __('Web');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left border text-center super-compact"><b><?php print __('Mail');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left border text-center super-compact"><b><?php print __('DNS');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Databases');?></b></div>
-                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Cron Jobs');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Web');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Mail');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('DNS');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('DB');?></b></div>
+                  <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Jobs');?></b></div>
                   <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?php print __('Backups');?></b></div>
              </div>
           </div>
@@ -109,9 +115,9 @@ sort-bandwidth="<?=$data[$key]['U_BANDWIDTH']?>" sort-disk="<?=$data[$key]['U_DI
               <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?=$data[$key]['PACKAGE']?></b></div>
               <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?=humanize_usage_size($data[$key]['U_DISK'])?></b> <span class="text-small"><?=humanize_usage_measure($data[$key]['U_DISK'])?></span></div>
               <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?=humanize_usage_size($data[$key]['U_BANDWIDTH'])?></b> <span class="text-small"><?=humanize_usage_measure($data[$key]['U_BANDWIDTH'])?></span></div>
-              <div class="clearfix l-unit__stat-col--left border text-center super-compact"><b><?=$data[$key]['U_WEB_DOMAINS']?></b></div>
-              <div class="clearfix l-unit__stat-col--left border text-center super-compact"><b><?=$data[$key]['U_MAIL_DOMAINS']?></b></div>
-              <div class="clearfix l-unit__stat-col--left border text-center super-compact"><b><?=$data[$key]['U_DNS_DOMAINS']?></b></div>
+              <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?=$data[$key]['U_WEB_DOMAINS']?></b></div>
+              <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?=$data[$key]['U_MAIL_DOMAINS']?></b></div>
+              <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?=$data[$key]['U_DNS_DOMAINS']?></b></div>
               <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?=$data[$key]['U_DATABASES']?></b></div>
               <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?=$data[$key]['U_CRON_JOBS']?></b></div>
               <div class="clearfix l-unit__stat-col--left border text-center compact"><b><?=$data[$key]['U_BACKUPS']?></b></div>

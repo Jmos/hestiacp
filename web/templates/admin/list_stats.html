@@ -1,47 +1,33 @@
-    <div class="l-center">
-      <div class="l-sort clearfix noselect">
-          <div class="l-sort-toolbar clearfix page-toolbar">
-            <div class="l-center">
-          <table>
-            <tr>
-              <td class="l-sort-toolbar__search-box">
-                <form action="/search/" method="get">
-                  <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
-                  <input type="text" name="q" class="search-input" value="<? echo isset($_POST['q']) ? htmlspecialchars($_POST['q']) : '' ?>" />
-                  <input type="submit" value="" class="l-sort-toolbar__search" onClick="return doSearch('/search/')" />
-                </form>
-              </td>
-              <td></td>
-              <td class="step-right">
-                <a class="vst" href='/list/stats/'><?=__('Overall Statistics')?></a>
-              </td>
-              <td>
-                <form action="/list/stats/" method="get" id="objects">
-                  <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
-                  <div class="l-select">
-                    <select class="" name="user">
-                      <option value=""><?=__('show per user')?></option>
-                        <?
-                          foreach ($users as $key => $value) {
-                            echo "\t\t\t\t<option value=\"".$value."\"";
-                            if ((!empty($v_user)) && ( $value == $_GET['user'])){
-                              echo ' selected';
-                            }
-                              echo ">".$value."</option>\n";
-                            }
-                          ?>
-                    </select>
-                  </div>
-                  <button type="submit" class="l-sort-toolbar__filter-apply" value=""><i class="fas fa-arrow-right"></i></button>
-                </form>
-              </td>
-            </tr>
-          </table>
-        </div>
-        </div>
+<div class="l-center">
+    <div class="l-sort clearfix noselect">
+      <ul class="context-menu sort-order" style="display:none;">
+        <li entity="sort-action"><span class="name active"><?=__('Action')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-protocol"><span class="name"><?=__('Protocol')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-port"><span class="name"><?=__('Port')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-ip" sort_as_int="1"><span class="name"><?=__('IP address')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-comment"><span class="name"><?=__('Comment')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-star"><span class="name"><?=__('Starred')?></span><span class="up">&nbsp;</span></li>
+      </ul>
+      <div class="l-sort-toolbar clearfix page-toolbar">
+          <div class="l-center">
+              <a href="/list/user/" title="<?=__('Back')?>"><i class="fas fa-arrow-circle-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Back')?></a>&nbsp;&nbsp;
+
+              <div class="clearfix" style="float: right;">
+                <form action="/bulk/firewall/" method="post" id="objects">
+                <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
+                <div class="l-select">
+                  <select name="action">
+                    <option value=""><?=__('apply to selected')?></option>
+                    <option value="delete"><?=__('delete')?></option>
+                  </select>
+                </div>
+                <button type="submit" class="l-sort-toolbar__filter-apply" value=""><i class="fas fa-arrow-right"></i></button>
+               </div>
+             </div>
+         </div>
       </div>
-      <!-- /.l-sort -->
-    </div>
+  </div>
+  
 
     <div class="l-separator"></div>
     <!-- /.l-separator -->

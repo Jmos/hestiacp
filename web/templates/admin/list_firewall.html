@@ -10,6 +10,7 @@
         </ul>
         <div class="l-sort-toolbar clearfix page-toolbar">
             <div class="l-center">
+                <a href="/list/server/" title="<?=__('Back')?>"><i class="fas fa-arrow-circle-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Back')?></a>&nbsp;&nbsp;
                 <a href="/add/firewall/" class="" title="<?=__('Add Rule')?>"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Add Rule')?></a>
       
                 <? if(!empty($_SESSION['FIREWALL_EXTENSION'])) {
@@ -46,7 +47,7 @@
                     </div>
                   
                     <div class="clearfix l-unit__stat-col--left wide"><b><?php print __('Action');?></b></div>
-                    <div class="clearfix l-unit__stat-col--left compact"><b>&nbsp;</b></div>
+                    <div class="clearfix l-unit__stat-col--left compact-1"><b>&nbsp;</b></div>
                     <div class="clearfix l-unit__stat-col--left border wide-1 text-center"><b><?php print __('Comment');?></b></div>   
                     <div class="clearfix l-unit__stat-col--left border text-center"><b><?php print __('Protocol');?></b></div>
                     <div class="clearfix l-unit__stat-col--left border wide-2 text-center"><b><?php print __('Port');?></b></div>
@@ -94,7 +95,7 @@ sort-ip="<?=str_replace('.', '', $data[$key]['IP'])?>" sort-comment="<?=$data[$k
               <? } ?>
             <? } ?>
           </a></b></div>
-        <div class="clearfix l-unit__stat-col--left text-right compact">
+        <div class="clearfix l-unit__stat-col--left text-right compact-1">
             <a href="/edit/firewall/?rule=<?=$key?>"><i class="fas fa-pencil-alt status-icon-orange status-icon-dim icon-large"></i></a>
             <a href="/<?=$spnd_action ?>/firewall/?rule=<?=$key?>&token=<?=$_SESSION['token']?>"><i class="data-controls fas fa-pause-circle status-icon-highlight status-icon-dim icon-large"></i></a>
             <a href="/delete/firewall/?rule=<?=$key?>&token=<?=$_SESSION['token']?>"><i class="fas fa-trash status-icon-red status-icon-dim icon-large"></i></a>

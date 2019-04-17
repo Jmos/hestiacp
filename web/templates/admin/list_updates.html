@@ -3,7 +3,7 @@
           <div class="l-sort-toolbar clearfix page-toolbar">
 
               <div class="l-center">
-
+                  <a href="/list/server/" title="<?=__('Back')?>"><i class="fas fa-arrow-circle-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Back')?></a>&nbsp;&nbsp;
                   <? if($autoupdate == 'Enabled') {
                     echo '<a href="/delete/cron/autoupdate/?token='.$_SESSION['token'].'" class="" title="'.__('disable autoupdate').'"><i class="fas fa-pause-circle status-icon-red"></i>&nbsp;&nbsp;&nbsp;&nbsp;'.__('disable autoupdate').'</a>';
                   } else {

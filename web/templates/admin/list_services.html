@@ -12,6 +12,10 @@
   
           <div class="l-center">
             <a href="/edit/server/" title="<?=__('Configure')?>"><i class="fas fa-pencil-alt status-icon-orange"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Configure')?></a>&nbsp;&nbsp;
+            <a href="/list/ip/" title="<?=__('IP')?>"><i class="fas fa-ethernet status-icon-yellow"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Network')?></a>&nbsp;&nbsp;
+            <?php if ((isset($_SESSION['FIREWALL_SYSTEM'])) && (!empty($_SESSION['FIREWALL_SYSTEM']))) {?><a href="/list/firewall/" title="<?=__('Firewall')?>"><i class="fas fa-shield-alt status-icon-red"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Firewall')?></a>&nbsp;&nbsp;<?php }?>
+            <a href="/list/updates/" title="<?=__('Updates')?>"><i class="fas fa-sync-alt status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Updates')?></a>&nbsp;&nbsp;
+            <a href="/list/rrd/" title="<?=__('Graphs')?>"><i class="fas fa-tachometer-alt status-icon-orange"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Graphs')?></a>&nbsp;&nbsp;
             <a href="/list/server/?cpu" target="_blank" ><i class="fas fa-list status-icon-blue"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('show: CPU / MEM / NET / DISK');?></a>
   
             <div class="clearfix" style="float: right;">

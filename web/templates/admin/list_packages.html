@@ -1,49 +1,34 @@
-    <div class="l-center">
-      <div class="l-sort clearfix noselect">
-        <a href="/add/package/" class="l-sort__create-btn" title="<?=__('Add Package')?>"></a>
-        <ul class="context-menu sort-order" style="display:none;">
-          <li entity="sort-date" sort_as_int="1"><span class="name active"><?=__('Date')?></span><span class="up">&nbsp;</span></li>
-          <li entity="sort-name"><span class="name"><?=__('Package Name')?></span><span class="up">&nbsp;</span></li>
-          <li entity="sort-star" sort_as_int="1"><span class="name"><?=__('Starred')?></span><span class="up">&nbsp;</span></li>
-        </ul>
-
-        <div class="l-sort-toolbar clearfix page-toolbar">
+<div class="l-center">
+    <div class="l-sort clearfix noselect">
+      <ul class="context-menu sort-order" style="display:none;">
+        <li entity="sort-action"><span class="name active"><?=__('Action')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-protocol"><span class="name"><?=__('Protocol')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-port"><span class="name"><?=__('Port')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-ip" sort_as_int="1"><span class="name"><?=__('IP address')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-comment"><span class="name"><?=__('Comment')?></span><span class="up">&nbsp;</span></li>
+        <li entity="sort-star"><span class="name"><?=__('Starred')?></span><span class="up">&nbsp;</span></li>
+      </ul>
+      <div class="l-sort-toolbar clearfix page-toolbar">
           <div class="l-center">
-          <table>
-            <tr>
-              <td class="l-sort-toolbar__search-box">
-                <form action="/search/" method="get">
-                  <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
-                  <input type="text" name="q" class="search-input" value="<? echo isset($_POST['q']) ? htmlspecialchars($_POST['q']) : '' ?>" />
-                  <input type="submit" value="" class="l-sort-toolbar__search" onClick="return doSearch('/search/')" />
-                </form>
-              </td>
-              <td class="toggle-all">
-                <input id="toggle-all" type="checkbox" name="toggle-all" value="toggle-all" onChange="checkedAll('objects');">
-                <label for="toggle-all" class="check-label toggle-all"><?=__('toggle all')?></label>
-              </td>
-              <td>
-                <form action="/bulk/package/" method="post" id="objects">
+              <a href="/list/user/" title="<?=__('Back')?>"><i class="fas fa-arrow-circle-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Back')?></a>&nbsp;&nbsp;
+              <a href="/add/package/" class="" title="<?=__('Add Package')?>"><i class="fas fa-plus-circle status-icon-green"></i>&nbsp;&nbsp;&nbsp;&nbsp;<?=__('Add Package')?></a>
+
+              <div class="clearfix" style="float: right;">
+                <form action="/bulk/firewall/" method="post" id="objects">
                 <input type="hidden" name="token" value="<?=$_SESSION['token']?>" />
                 <div class="l-select">
-                  <select name="action" id="">
+                  <select name="action">
                     <option value=""><?=__('apply to selected')?></option>
                     <option value="delete"><?=__('delete')?></option>
                   </select>
                 </div>
                 <button type="submit" class="l-sort-toolbar__filter-apply" value=""><i class="fas fa-arrow-right"></i></button>
-              </td>
-              <td class="sort-by">
-                <?=__('sort by');?>: <span><b><?=__('Date')?></b></span> <i class="l-icon-down-arrow media-top"></i>
-              </td>
-            </tr>
-          </table>
-        </div>
-        </div>
+               </div>
+             </div>
+         </div>
       </div>
-      <!-- /.l-sort -->
-    </div>
-
+  </div>
+  
     <div class="l-separator"></div>
     <!-- /.l-separator -->
 

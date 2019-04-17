@@ -582,7 +582,7 @@ $LANG['en'] = array(
     'Template Manager' => 'Template Manager',
     'Backup Migration Manager' => 'Backup Migration Manager',
     'FileManager' => 'File Manager',
-    'show: CPU / MEM / NET / DISK' => 'View detailed system statistics',
+    'show: CPU / MEM / NET / DISK' => 'View Usage',
 
     'sort by' => 'sort by',
     'Date' => 'Date',
