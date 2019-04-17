@@ -46,6 +46,38 @@
     <div class="l-separator"></div>
     <!-- /.l-separator --> 
     <div class="l-center units animated fadeIn">
+      <div class="page-title">Total Usage Overview:</div>
+      <div class="overview-circles">
+        <ul>
+          <div>Web Domains</div>
+          <li><span><?=$panel[$user]['U_WEB_DOMAINS']?> / <?=$panel[$user]['SUSPENDED_WEB']?></span></li>
+
+          <div>Web Domain Aliases</div>
+          <li><span><?=$panel[$user]['U_WEB_ALIASES']?></span></li>
+
+          <div>DNS Zones</div>
+          <li><span><?=$panel[$user]['U_DNS_DOMAINS']?> / <?=$panel[$user]['SUSPENDED_DNS']?></span></li>
+
+          <div>DNS Records</div>
+          <li><span><?=$panel[$user]['U_DNS_RECORDS']?></span></li>
+
+          <div>Mail Domains</div>
+          <li><span><?=$panel[$user]['U_MAIL_DOMAINS']?> / <?=$panel[$user]['SUSPENDED_MAIL']?></span></li>
+
+          <div>Mail Accounts</div>
+          <li><span><?=$panel[$user]['U_MAIL_ACCOUNTS']?></span></li>
+          
+          <div>Databases</div>
+          <li><span><?=$panel[$user]['U_DATABASES']?> / <?=$panel[$user]['SUSPENDED_DB']?></span></li>
+
+          <div>Cron Jobs</div>
+          <li><span><?=$panel[$user]['U_CRON_JOBS']?> / <?=$panel[$user]['SUSPENDED_CRON']?></span></li>
+
+          <div>Backups</div>
+          <li><span><?=$panel[$user]['U_BACKUPS']?></span></li>
+      </ul>
+      </div>
+      <div class="page-title">Users</div>
         <div class="l-unit table-header">
       
             <div class="l-unit__col l-unit__col--right">
