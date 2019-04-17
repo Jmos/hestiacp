@@ -37,15 +37,14 @@ fi
 # Clear the screen from apt output to prepare for upgrade installer experience
 clear
 echo
-echo '  _   _           _   _        ____ ____  '
-echo ' | | | | ___  ___| |_(_) __ _ / ___|  _ \ '
-echo ' | |_| |/ _ \/ __| __| |/ _` | |   | |_) |'
-echo ' |  _  |  __/\__ \ |_| | (_| | |___|  __/ '
-echo ' |_| |_|\___||___/\__|_|\__,_|\____|_|    '
+echo '     _   _           _   _        ____ ____  '
+echo '    | | | | ___  ___| |_(_) __ _ / ___|  _ \ '
+echo '    | |_| |/ _ \/ __| __| |/ _` | |   | |_) |'
+echo '    |  _  |  __/\__ \ |_| | (_| | |___|  __/ '
+echo '    |_| |_|\___||___/\__|_|\__,_|\____|_|    '
 echo
-echo '                      Hestia Control Panel'
 echo -e "\n\n"
-echo "Upgrading Hestia Control Panel..."
+echo "       Hestia Control Panel Upgrade Script"
 echo "==================================================="
 echo ""
 echo "This process may take a few minutes, please wait..."
@@ -86,6 +85,16 @@ fi
 # Install and configure z-push
 if [ ! -z "$MAIL_SYSTEM" ]; then
     echo "(*) Installing Z-Push..."
+    # Remove previous Z-Push configuration
+    rm -rf /etc/z-push/*
+    
+    # Disable apt package lock to install z-push
+    mv /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock-frontend.bak
+    mv /var/lib/dpkg/lock /var/lib/dpkg/lock.bak
+    mv /var/cache/apt/archives/lock /var/cache/apt/archives/lock.bak
+    mv /var/lib/dpkg/updates/ /var/lib/dpkg/updates.bak/
+    mkdir -p /var/lib/dpkg/updates/
+
     apt="/etc/apt/sources.list.d"
     if [ "$os" = 'ubuntu' ]; then
         echo "deb http://repo.z-hub.io/z-push:/final/Ubuntu_$release/ /" > $apt/z-push.list
@@ -104,7 +113,7 @@ if [ ! -z "$MAIL_SYSTEM" ]; then
     fi
 
     apt-get -qq update > /dev/null 2>&1
-    apt-get -qq -y install z-push-common z-push-backend-imap z-push-backend-combined z-push-autodiscover > /dev/null 2>&1
+    apt-get -qq -y install php-imap php-apcu php-ldap z-push-common z-push-backend-imap z-push-backend-combined z-push-autodiscover > /dev/null 2>&1
 
     echo "(I) Adding Z-Push configuration directory"
     mkdir -p /etc/z-push/
@@ -119,12 +128,19 @@ if [ ! -z "$MAIL_SYSTEM" ]; then
     chown -R www-data:www-data /var/lib/z-push
     chmod 777 /var/log/z-push
     chown -R www-data:www-data /var/log/z-push
+
+    # Enable apt package lock
+    mv /var/lib/dpkg/lock-frontend.bak /var/lib/dpkg/lock-frontend
+    mv /var/lib/dpkg/lock.bak /var/lib/dpkg/lock
+    mv /var/cache/apt/archives/lock.bak /var/cache/apt/archives/lock
+    rm -rf /var/lib/dpkg/updates/
+    mv /var/lib/dpkg/updates.bak/ /var/lib/dpkg/updates/
 fi
 
 # Update default page templates
 echo "(*) Replacing default templates and packages..."
-echo "    Existing templates have been backed up to the following location:"
-echo "    $HESTIA_BACKUP/templates/"
+echo "    Existing files have been backed up to the following location:"
+echo "    $HESTIA_BACKUP/"
 
 # Back up default package and install latest version
 if [ -d $HESTIA/data/packages/ ]; then
@@ -306,6 +322,16 @@ for user in `ls /usr/local/hestia/data/users/`; do
     v-rebuild-mail-domains $user >/dev/null 2>&1
     sleep 1
 done
+
+sleep 2
+
+# Restart services server
+echo "(*) Restarting services..."
+$BIN/v-restart-mail $restart
+$BIN/v-restart-service $IMAP_SYSTEM $restart
+$BIN/v-restart-web $restart
+$BIN/v-restart-proxy $restart
+
 echo ""
 echo "    Upgrade complete! Please report any bugs or issues to"
 echo "    https://github.com/hestiacp/hestiacp/issues."
